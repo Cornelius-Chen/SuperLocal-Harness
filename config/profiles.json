@@ -1,0 +1,77 @@
+{
+  "profiles": [
+    {
+      "id": "coding",
+      "label": "Coding · supervised",
+      "description": "Plan, inspect, edit with approval, run tests, and verify independently.",
+      "default_workflow": "plan_execute_verify",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state", "write_file", "apply_patch", "shell"],
+      "denied_path_parts": [".env", ".ssh", ".aws", ".git/credentials"],
+      "mutating_tools": true,
+      "max_steps": 14,
+      "max_context_chars": 120000,
+      "system_prompt": "Work in small reversible steps. Inspect before editing. Use update_state to preserve the plan, decisions, facts and next actions outside chat. Never claim completion without executing relevant tests."
+    },
+    {
+      "id": "guanlan_blind",
+      "label": "Guanlan · blind research",
+      "description": "Fresh-window A-share research with teacher/future information sealed from the worker.",
+      "default_workflow": "plan_execute_verify",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state", "write_file", "apply_patch", "shell"],
+      "denied_path_parts": ["teacher", "sealed", "future", "answer_key", "revealed", "post_window", "labels_future", ".env", ".ssh", ".aws"],
+      "mutating_tools": true,
+      "max_steps": 18,
+      "max_context_chars": 140000,
+      "system_prompt": "This is a blinded research run. Never seek, infer from filenames, or access teacher/future/revealed information. Pre-register the hypothesis, decision rule, invalidation and evaluation before inspecting outcomes. Preserve a reproducible ledger. No trading orders or claims of guaranteed profit."
+    },
+    {
+      "id": "research",
+      "label": "Research · evidence first",
+      "description": "Source-backed research with explicit uncertainty, counterevidence and dated claims.",
+      "default_workflow": "plan_execute_verify",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state", "write_file", "apply_patch", "shell"],
+      "denied_path_parts": [".env", ".ssh", ".aws"],
+      "mutating_tools": true,
+      "max_steps": 16,
+      "max_context_chars": 140000,
+      "system_prompt": "Separate the owner's preferences from external reality. Preserve source, date, uncertainty, counterevidence and falsification conditions. Prefer primary evidence. Write durable findings to project artifacts only after approval."
+    },
+    {
+      "id": "studio_explore",
+      "label": "AI Studio · explore then converge",
+      "description": "Broad external exploration followed by explicit comparison, narrowing and a feedback-ready artifact.",
+      "default_workflow": "plan_execute_verify",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state", "write_file", "apply_patch", "shell"],
+      "denied_path_parts": [".env", ".ssh", ".aws"],
+      "mutating_tools": true,
+      "max_steps": 18,
+      "max_context_chars": 140000,
+      "system_prompt": "Balance breadth and depth explicitly. Maintain a deduplicated evidence count, comparison table, convergence rationale, stop rule and plan for obtaining real human feedback. Do not optimize for agent busyness."
+    },
+    {
+      "id": "coursework_learning",
+      "label": "Coursework · learning only",
+      "description": "Read-only tutoring and practice; no submission, impersonation or concealed completion of restricted graded work.",
+      "default_workflow": "solo",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state"],
+      "denied_path_parts": ["solutions", "answer_key", ".env", ".ssh", ".aws"],
+      "mutating_tools": false,
+      "max_steps": 8,
+      "max_context_chars": 80000,
+      "system_prompt": "Teach interactively. Distinguish permitted study help from prohibited assistance on active assessments. Do not submit work or impersonate the student. Prefer hints, checks and explanations that preserve learning."
+    },
+    {
+      "id": "read_only",
+      "label": "Read only · safest",
+      "description": "Inspection and analysis without file edits or shell side effects.",
+      "default_workflow": "solo",
+      "allowed_tools": ["list_files", "read_file", "search_text", "git_status", "git_diff", "update_state"],
+      "denied_path_parts": [".env", ".ssh", ".aws"],
+      "mutating_tools": false,
+      "max_steps": 10,
+      "max_context_chars": 100000,
+      "system_prompt": "Inspect and explain only. Do not modify files or invoke side effects. Record durable conclusions in mission state."
+    }
+  ]
+}
+

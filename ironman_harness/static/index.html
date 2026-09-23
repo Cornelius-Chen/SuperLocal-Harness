@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>IRONMAN Harness</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">I</div>
+        <div>
+          <div class="eyebrow">CORNELIUS</div>
+          <div class="brand-name">IRONMAN Harness</div>
+        </div>
+      </div>
+
+      <button id="newMissionButton" class="primary-button wide">+ New governed mission</button>
+
+      <div class="section-label">MISSIONS</div>
+      <div id="missionList" class="mission-list"></div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot online"></span>
+        <span>Local state authoritative</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow" id="projectEyebrow">MISSION CONTROL</div>
+          <h1 id="missionTitle">Start a mission</h1>
+        </div>
+        <div class="model-control">
+          <label for="quickModel">MODEL</label>
+          <select id="quickModel" aria-label="Selected model"></select>
+          <button id="healthButton" class="icon-button" title="Test selected model">●</button>
+        </div>
+      </header>
+
+      <section id="newMissionView" class="new-mission-view">
+        <div class="hero-copy">
+          <span class="hero-kicker">MODEL-SOVEREIGN · RESUMABLE · AUDITABLE</span>
+          <h2>One control plane.<br /><span>Replaceable intelligence.</span></h2>
+          <p>
+            Route DeepSeek, Ollama and any OpenAI-compatible endpoint through persistent missions,
+            human approvals and independent verification. The model is a worker; your local state is the institution.
+          </p>
+        </div>
+
+        <form id="missionForm" class="mission-form">
+          <div class="form-row two">
+            <label>
+              <span>Project directory</span>
+              <input id="projectPath" name="project_path" placeholder="D:\Projects\example" required />
+              <small id="rootHint"></small>
+            </label>
+            <label>
+              <span>Runtime profile</span>
+              <select id="profileSelect" name="profile_id"></select>
+            </label>
+          </div>
+
+          <label>
+            <span>Mission</span>
+            <textarea id="promptInput" name="prompt" rows="7" placeholder="State the outcome, evidence standard, constraints and stop rule…" required></textarea>
+          </label>
+
+          <div class="form-row three">
+            <label>
+              <span>Workflow</span>
+              <select id="workflowSelect" name="workflow"></select>
+            </label>
+            <label>
+              <span>Budget (USD)</span>
+              <input id="budgetInput" name="budget_usd" type="number" min="0" step="0.10" value="1.00" />
+            </label>
+            <label class="toggle-label">
+              <span>Privacy boundary</span>
+              <span class="toggle-line">
+                <input id="localOnly" name="local_only" type="checkbox" />
+                <span>Local models only</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="form-footer">
+            <div class="form-note">
+              Mutations pause for approval. Broker orders, destructive commands and sealed research paths are blocked.
+            </div>
+            <button class="primary-button" type="submit">Launch mission →</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="missionView" class="mission-view hidden">
+        <div id="stageRail" class="stage-rail"></div>
+        <div id="conversation" class="conversation"></div>
+        <form id="followupForm" class="followup-form">
+          <textarea id="followupInput" rows="2" placeholder="Add a correction or next instruction…"></textarea>
+          <button type="submit" class="primary-button">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <aside class="inspector">
+      <div class="inspector-header">
+        <div>
+          <div class="eyebrow">LIVE CONTROL</div>
+          <h3>Mission state</h3>
+        </div>
+        <button id="refreshButton" class="icon-button" title="Refresh">↻</button>
+      </div>
+
+      <div id="emptyInspector" class="empty-inspector">
+        Launch or select a mission to inspect route decisions, approvals, cost and event-chain integrity.
+      </div>
+
+      <div id="activeInspector" class="hidden">
+        <div class="metric-grid">
+          <div class="metric"><span>Status</span><strong id="metricStatus">—</strong></div>
+          <div class="metric"><span>Stage</span><strong id="metricStage">—</strong></div>
+          <div class="metric"><span>Spend</span><strong id="metricSpend">—</strong></div>
+          <div class="metric"><span>Steps</span><strong id="metricSteps">—</strong></div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-title">Route</div>
+          <div id="routeCard" class="route-card"></div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-title row-between"><span>Approvals</span><span id="approvalCount" class="pill">0</span></div>
+          <div id="approvalList" class="approval-list"></div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-title">Durable state</div>
+          <div id="stateSummary" class="state-summary"></div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-title row-between"><span>Audit stream</span><span id="integrityBadge" class="pill">—</span></div>
+          <div id="eventList" class="event-list"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

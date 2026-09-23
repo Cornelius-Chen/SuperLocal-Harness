@@ -1,0 +1,108 @@
+{
+  "models": [
+    {
+      "id": "auto",
+      "label": "Auto · visible routing",
+      "provider": "router",
+      "api_model": "auto",
+      "base_url": "",
+      "locality": "hybrid",
+      "tier": "router",
+      "supports_tools": true,
+      "context_window": 65536,
+      "roles": ["router"],
+      "description": "Chooses a configured model using a visible static policy; never silently crosses privacy boundaries."
+    },
+    {
+      "id": "deepseek-flash",
+      "label": "DeepSeek Flash · light",
+      "provider": "openai_compatible",
+      "api_model": "${DEEPSEEK_FLASH_MODEL:-deepseek-chat}",
+      "base_url": "${DEEPSEEK_BASE_URL:-https://api.deepseek.com/v1}",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "locality": "cloud",
+      "tier": "economical",
+      "supports_tools": true,
+      "context_window": 65536,
+      "roles": ["general", "coding", "research", "executor"],
+      "description": "Default economical cloud worker for ordinary coding, synthesis and tool use.",
+      "pricing": {
+        "input_per_million": "${DEEPSEEK_FLASH_INPUT_PER_M:-0}",
+        "output_per_million": "${DEEPSEEK_FLASH_OUTPUT_PER_M:-0}"
+      }
+    },
+    {
+      "id": "deepseek-reasoner",
+      "label": "DeepSeek Reasoner / Pro · high",
+      "provider": "openai_compatible",
+      "api_model": "${DEEPSEEK_REASONER_MODEL:-deepseek-reasoner}",
+      "base_url": "${DEEPSEEK_BASE_URL:-https://api.deepseek.com/v1}",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "locality": "cloud",
+      "tier": "strong",
+      "supports_tools": true,
+      "context_window": 65536,
+      "roles": ["reasoning", "architecture", "verifier", "blind_research"],
+      "description": "Escalation model for hard reasoning, architecture and independent review.",
+      "pricing": {
+        "input_per_million": "${DEEPSEEK_REASONER_INPUT_PER_M:-0}",
+        "output_per_million": "${DEEPSEEK_REASONER_OUTPUT_PER_M:-0}"
+      }
+    },
+    {
+      "id": "qwen-coder-local",
+      "label": "Qwen Coder · local",
+      "provider": "openai_compatible",
+      "api_model": "${OLLAMA_CODER_MODEL:-qwen3-coder:30b}",
+      "base_url": "${OLLAMA_BASE_URL:-http://127.0.0.1:11434/v1}",
+      "locality": "local",
+      "tier": "mid",
+      "supports_tools": true,
+      "context_window": 65536,
+      "roles": ["coding", "repository_map", "private"],
+      "description": "Local coding worker for repository reading, bounded patches and private data."
+    },
+    {
+      "id": "qwen-fast-local",
+      "label": "Qwen Fast · local",
+      "provider": "openai_compatible",
+      "api_model": "${OLLAMA_FAST_MODEL:-qwen3:8b}",
+      "base_url": "${OLLAMA_BASE_URL:-http://127.0.0.1:11434/v1}",
+      "locality": "local",
+      "tier": "micro",
+      "supports_tools": true,
+      "context_window": 32768,
+      "roles": ["classification", "summarization", "extraction", "private"],
+      "description": "Low-cost local worker for triage, metadata, summaries and structured extraction."
+    },
+    {
+      "id": "litellm-custom",
+      "label": "LiteLLM / custom gateway",
+      "provider": "openai_compatible",
+      "api_model": "${LITELLM_MODEL:-auto}",
+      "base_url": "${LITELLM_BASE_URL:-http://127.0.0.1:4000/v1}",
+      "api_key_env": "LITELLM_API_KEY",
+      "locality": "hybrid",
+      "tier": "gateway",
+      "supports_tools": true,
+      "context_window": 65536,
+      "roles": ["custom"],
+      "description": "Optional self-hosted gateway for any additional provider, load balancing or central budgets."
+    },
+    {
+      "id": "mock-local",
+      "label": "Demo model · offline",
+      "provider": "mock",
+      "api_model": "mock-local",
+      "base_url": "mock://local",
+      "locality": "local",
+      "tier": "test",
+      "supports_tools": true,
+      "context_window": 16000,
+      "roles": ["demo", "test"],
+      "description": "Offline deterministic model used for installation checks and tests.",
+      "enabled": "${HARNESS_ENABLE_MOCK:-true}"
+    }
+  ]
+}
+

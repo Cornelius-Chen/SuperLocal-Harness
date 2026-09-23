@@ -1,0 +1,10 @@
+[project]
+name = "ironman-harness"
+version = "0.1.0"
+description = "Local-first, provider-neutral agent mission control for Cornelius"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"
+
