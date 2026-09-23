@@ -28,7 +28,7 @@ def build_runtime(settings: Settings):
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="IRONMAN Harness local mission control")
+    parser = argparse.ArgumentParser(description="SuperLocal Harness local mission control")
     parser.add_argument("command", nargs="?", default="serve", choices=["serve", "doctor", "config"])
     parser.add_argument("--bind", help="Override HARNESS_BIND")
     parser.add_argument("--port", type=int, help="Override HARNESS_PORT")
@@ -64,7 +64,7 @@ def main() -> int:
         return 0
 
     if args.command == "doctor":
-        print("IRONMAN Harness doctor")
+        print("SuperLocal Harness doctor")
         print(f"Database: {settings.db_path} [ok]")
         print("Models:")
         for model in settings.models.values():
@@ -81,7 +81,7 @@ def main() -> int:
     missions.resume_incomplete()
     server = create_server(settings, db, gateway, missions)
     display_host = "127.0.0.1" if settings.bind in {"0.0.0.0", "::"} else settings.bind
-    print("IRONMAN Harness v0.1")
+    print("SuperLocal Harness v0.1")
     print(f"Open http://{display_host}:{settings.port}")
     print("Press Ctrl+C to stop. Mission state remains in SQLite and resumes on restart.")
     try:

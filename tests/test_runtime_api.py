@@ -8,10 +8,10 @@ import urllib.request
 from pathlib import Path
 from unittest.mock import patch
 
-from ironman_harness.__main__ import build_runtime
-from ironman_harness.api import create_server
-from ironman_harness.config import Settings
-from ironman_harness.gateway import ModelResponse, ToolCall
+from superlocal_harness.__main__ import build_runtime
+from superlocal_harness.api import create_server
+from superlocal_harness.config import Settings
+from superlocal_harness.gateway import ModelResponse, ToolCall
 
 
 ROOT = Path(__file__).resolve().parents[1]

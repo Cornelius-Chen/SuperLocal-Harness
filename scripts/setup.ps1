@@ -27,7 +27,7 @@ if (-not (Test-Path ".env")) {
 New-Item -ItemType Directory -Force "data" | Out-Null
 
 Write-Host "`nChecking configuration..." -ForegroundColor Cyan
-& $PythonExe @PythonArgs -m ironman_harness config | Out-Host
+& $PythonExe @PythonArgs -m superlocal_harness config | Out-Host
 
 Write-Host "`nSetup complete." -ForegroundColor Green
 Write-Host "1. Open .env and set HARNESS_PROJECT_ROOTS plus DEEPSEEK_API_KEY if wanted."

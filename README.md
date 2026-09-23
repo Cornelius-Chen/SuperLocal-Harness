@@ -1,8 +1,8 @@
-# IRONMAN Harness MVP
+# SuperLocal Harness MVP
 
-[![Verify](https://github.com/Cornelius-Chen/IRONMAN-Harness/actions/workflows/verify.yml/badge.svg)](https://github.com/Cornelius-Chen/IRONMAN-Harness/actions/workflows/verify.yml)
+[![Verify](https://github.com/Cornelius-Chen/SuperLocal-Harness/actions/workflows/verify.yml/badge.svg)](https://github.com/Cornelius-Chen/SuperLocal-Harness/actions/workflows/verify.yml)
 
-IRONMAN Harness is a local-first mission control layer for model switching, long-running coding and research tasks, explicit budgets, human approval for mutations, and supervised verification. It includes a Guanlan blind-research profile, but has no trading authority.
+SuperLocal Harness is a local-first mission control layer for model switching, long-running coding and research tasks, explicit budgets, human approval for mutations, and supervised verification. It includes a Guanlan blind-research profile, but has no trading authority.
 
 It is intentionally **not** another generic chat wrapper. Models are replaceable workers. Mission state, evidence, approvals, budgets and audit history remain locally authoritative.
 
@@ -26,7 +26,7 @@ This proves the local workflow and persisted audit path are runnable without a p
 
 ## Architecture: authority stays local
 
-![IRONMAN Harness architecture](docs/images/architecture.png)
+![SuperLocal Harness architecture](docs/images/architecture-superlocal.png)
 
 The model worker proposes an action. The local policy engine checks the project's scope and either allows read-only work, requests one-time approval for a write or command, or denies the action. SQLite mission state and a hash-chained event stream retain the decision and evidence across restarts. Hashes reveal local tampering; they are not externally anchored signatures. See [the architecture](docs/ARCHITECTURE.md) and [security boundaries](docs/SECURITY.md).
 
@@ -56,7 +56,7 @@ The model worker proposes an action. The local policy engine checks the project'
 
 ## Five-minute Windows start
 
-1. Extract this folder to a stable location, for example `D:\Projects\IRONMAN-Harness`.
+1. Extract this folder to a stable location, for example `D:\Projects\SuperLocal-Harness`.
 2. Open PowerShell in that folder.
 3. Run:
 
@@ -76,7 +76,7 @@ The model worker proposes an action. The local policy engine checks the project'
 6. Open `http://127.0.0.1:8765`.
 7. Select `Demo model · offline` and run one read-only mission first.
 
-No package installation is needed beyond Python 3.12+. `uv run python -m ironman_harness` also works if you prefer uv.
+No package installation is needed beyond Python 3.12+. `uv run python -m superlocal_harness` also works if you prefer uv.
 
 ## DeepSeek
 
@@ -159,16 +159,16 @@ These omissions keep v0.1 small enough to inspect and test. The next admission g
 
 ```powershell
 # Configuration without starting the server
-python -m ironman_harness config
+python -m superlocal_harness config
 
 # Endpoint and database diagnostics
-python -m ironman_harness doctor
+python -m superlocal_harness doctor
 
 # Run tests
 python -m unittest discover -s tests -v
 
 # Start
-python -m ironman_harness serve
+python -m superlocal_harness serve
 ```
 
 ## Design documents

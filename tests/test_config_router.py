@@ -4,8 +4,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from ironman_harness.config import Settings, expand_env
-from ironman_harness.router import StaticRouter
+from superlocal_harness.config import Settings, expand_env
+from superlocal_harness.router import StaticRouter
 
 
 ROOT = Path(__file__).resolve().parents[1]

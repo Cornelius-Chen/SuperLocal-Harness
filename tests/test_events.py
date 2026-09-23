@@ -2,8 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ironman_harness.db import Database
-from ironman_harness.events import EventStore
+from superlocal_harness.db import Database
+from superlocal_harness.events import EventStore
 
 
 class EventStoreTests(unittest.TestCase):

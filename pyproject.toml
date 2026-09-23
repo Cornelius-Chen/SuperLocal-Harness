@@ -1,5 +1,5 @@
 [project]
-name = "ironman-harness"
+name = "superlocal-harness"
 version = "0.1.0"
 description = "Local-first, provider-neutral agent mission control for Cornelius"
 requires-python = ">=3.12"

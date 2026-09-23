@@ -3,7 +3,7 @@ const state = {
   missions: [],
   selectedId: null,
   detail: null,
-  token: localStorage.getItem("ironman_access_token") || "",
+  token: localStorage.getItem("superlocal_access_token") || "",
   polling: null,
 };
 
@@ -17,7 +17,7 @@ async function api(path, options = {}) {
     const token = prompt("This remote harness requires its access token:");
     if (token) {
       state.token = token;
-      localStorage.setItem("ironman_access_token", token);
+      localStorage.setItem("superlocal_access_token", token);
       headers["X-Harness-Token"] = token;
       response = await fetch(path, { ...options, headers });
     }

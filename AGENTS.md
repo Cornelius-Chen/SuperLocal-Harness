@@ -1,4 +1,4 @@
-# AGENTS.md — IRONMAN Harness
+# AGENTS.md — SuperLocal Harness
 
 These instructions apply to the whole repository.
 
@@ -42,8 +42,8 @@ This repository is the small M0–M2 multi-model Harness, not the complete IRONM
 Run:
 
 ```text
-python -m compileall -q ironman_harness tests
-node --check ironman_harness/static/app.js
+python -m compileall -q superlocal_harness tests
+node --check superlocal_harness/static/app.js
 python -m unittest discover -s tests -v
 ```
 

@@ -2,10 +2,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ironman_harness.config import RuntimeProfile
-from ironman_harness.db import Database
-from ironman_harness.policy import PolicyAction, PolicyEngine
-from ironman_harness.tools import ToolContext, ToolExecutor
+from superlocal_harness.config import RuntimeProfile
+from superlocal_harness.db import Database
+from superlocal_harness.policy import PolicyAction, PolicyEngine
+from superlocal_harness.tools import ToolContext, ToolExecutor
 
 
 PROFILE = RuntimeProfile(

@@ -18,7 +18,7 @@ from .tools import ToolContext, ToolExecutor
 
 
 CORE_SYSTEM_PROMPT = """
-You are a bounded worker inside IRONMAN Harness. The durable mission record, policy engine,
+You are a bounded worker inside SuperLocal Harness. The durable mission record, policy engine,
 event log, approval broker and verifier are authoritative; chat is not authoritative state.
 
 Rules:
@@ -51,7 +51,7 @@ class MissionService:
         self.gateway = gateway
         self.policy = policy
         self.tools = tools
-        self.pool = ThreadPoolExecutor(max_workers=settings.max_workers, thread_name_prefix="ironman")
+        self.pool = ThreadPoolExecutor(max_workers=settings.max_workers, thread_name_prefix="superlocal")
         self._active: set[str] = set()
         self._active_lock = threading.Lock()
 

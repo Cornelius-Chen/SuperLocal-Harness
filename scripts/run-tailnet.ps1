@@ -15,8 +15,8 @@ $env:HARNESS_BIND = "0.0.0.0"
 Write-Host "Starting on all interfaces. Connect only through your Tailnet and keep the Windows firewall scoped." -ForegroundColor Yellow
 
 if (Get-Command py -ErrorAction SilentlyContinue) {
-    & py -3.12 -m ironman_harness serve
+    & py -3.12 -m superlocal_harness serve
 } else {
-    & python -m ironman_harness serve
+    & python -m superlocal_harness serve
 }
 

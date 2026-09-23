@@ -4,8 +4,8 @@ import os
 import tempfile
 from pathlib import Path
 
-from ironman_harness.__main__ import build_runtime
-from ironman_harness.config import Settings
+from superlocal_harness.__main__ import build_runtime
+from superlocal_harness.config import Settings
 
 
 def main() -> None:
