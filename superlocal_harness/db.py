@@ -164,6 +164,16 @@ class Database:
                     "INSERT INTO schema_migrations(version, applied_at) VALUES(1, ?)",
                     (utc_now(),),
                 )
+            exists = conn.execute("SELECT 1 FROM schema_migrations WHERE version = 2").fetchone()
+            if not exists:
+                with conn:
+                    conn.execute("BEGIN IMMEDIATE")
+                    conn.execute("ALTER TABLE usage ADD COLUMN usage_reported INTEGER NOT NULL DEFAULT 0")
+                    conn.execute("ALTER TABLE usage ADD COLUMN cost_known INTEGER NOT NULL DEFAULT 0")
+                    conn.execute(
+                        "INSERT INTO schema_migrations(version, applied_at) VALUES(2, ?)",
+                        (utc_now(),),
+                    )
 
     def execute(self, sql: str, params: tuple[Any, ...] = ()) -> int:
         with closing(self.connect()) as conn:
@@ -303,14 +313,15 @@ class Database:
             """
             INSERT INTO usage(
                 mission_id, model_id, provider, input_tokens, output_tokens,
-                cost_usd, latency_ms, success, error, created_at
-            ) VALUES(?,?,?,?,?,?,?,?,?,?)
+                cost_usd, latency_ms, success, error, created_at, usage_reported, cost_known
+            ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
             """,
             (
                 record["mission_id"], record["model_id"], record["provider"],
                 record.get("input_tokens", 0), record.get("output_tokens", 0),
                 record.get("cost_usd", 0.0), record.get("latency_ms", 0),
                 int(record.get("success", True)), record.get("error"), utc_now(),
+                int(record.get("usage_reported", False)), int(record.get("cost_known", False)),
             ),
         )
 
@@ -318,9 +329,9 @@ class Database:
         today = datetime.now(timezone.utc).date().isoformat()
         total = self.fetch_one(
             """
-            SELECT COALESCE(SUM(input_tokens),0) input_tokens,
-                   COALESCE(SUM(output_tokens),0) output_tokens,
-                   COALESCE(SUM(cost_usd),0) cost_usd,
+            SELECT CASE WHEN SUM(CASE WHEN success = 1 AND usage_reported = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(input_tokens),0) END input_tokens,
+                   CASE WHEN SUM(CASE WHEN success = 1 AND usage_reported = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(output_tokens),0) END output_tokens,
+                   CASE WHEN SUM(CASE WHEN success = 1 AND cost_known = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(cost_usd),0) END cost_usd,
                    COUNT(*) calls
             FROM usage WHERE substr(created_at,1,10) = ?
             """,
@@ -329,11 +340,11 @@ class Database:
         by_model = self.fetch_all(
             """
             SELECT model_id, COUNT(*) calls,
-                   COALESCE(SUM(input_tokens),0) input_tokens,
-                   COALESCE(SUM(output_tokens),0) output_tokens,
-                   COALESCE(SUM(cost_usd),0) cost_usd
+                   CASE WHEN SUM(CASE WHEN success = 1 AND usage_reported = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(input_tokens),0) END input_tokens,
+                   CASE WHEN SUM(CASE WHEN success = 1 AND usage_reported = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(output_tokens),0) END output_tokens,
+                   CASE WHEN SUM(CASE WHEN success = 1 AND cost_known = 0 THEN 1 ELSE 0 END) > 0 THEN NULL ELSE COALESCE(SUM(cost_usd),0) END cost_usd
             FROM usage WHERE substr(created_at,1,10) = ?
-            GROUP BY model_id ORDER BY cost_usd DESC, calls DESC
+            GROUP BY model_id ORDER BY calls DESC
             """,
             (today,),
         )

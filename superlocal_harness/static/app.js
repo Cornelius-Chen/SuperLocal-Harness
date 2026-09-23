@@ -148,7 +148,12 @@ function renderDetail() {
   $("quickModel").disabled = true;
   $("metricStatus").textContent = mission.status.replaceAll("_", " ");
   $("metricStage").textContent = mission.stage;
-  $("metricSpend").textContent = `$${Number(mission.spent_usd || 0).toFixed(4)} / $${Number(mission.budget_usd).toFixed(2)}`;
+  const calls = events.filter((event) => event.event_type === "ModelCallCompleted");
+  const spendKnown = calls.every((event) => event.payload.cost_known === true);
+  $("metricSpend").textContent = spendKnown
+    ? `$${Number(mission.spent_usd || 0).toFixed(4)} / $${Number(mission.budget_usd).toFixed(2)}`
+    : `Unknown / $${Number(mission.budget_usd).toFixed(2)}`;
+  $("metricSpend").title = spendKnown ? "Recorded model spend" : "A model call lacks reported usage or a configured price";
   $("metricSteps").textContent = `${mission.step_count} / ${mission.max_steps}`;
 
   renderStages(mission);

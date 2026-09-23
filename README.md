@@ -49,9 +49,9 @@ The model worker proposes an action. The local policy engine checks the project'
 - Hard blocks for destructive commands and broker/trading side effects.
 - Hash-chained append-only mission events with an integrity indicator.
 - Durable mission state outside the chat transcript to control context growth.
-- Mission and daily USD budgets when current prices are configured; tokens are always recorded.
+- Mission and daily USD budgets when current prices and provider usage are available; missing usage is shown as unknown.
 - Profiles for supervised coding, evidence-first research, Guanlan blind research, AI Studio exploration, coursework learning and read-only inspection.
-- A dependency-free Python 3.12 server and browser UI that works on Windows, macOS and Linux.
+- A dependency-free Python 3.12 server and browser UI, verified by CI on Windows. macOS and Linux are not yet checked by CI.
 - An offline demo model for installation tests—no key and no model download required.
 
 ## Five-minute Windows start
@@ -90,7 +90,7 @@ DEEPSEEK_REASONER_MODEL=deepseek-reasoner
 
 The UI labels map to actual provider/model pairs. Selecting DeepSeek changes both, so this does not have the provider/model mismatch that motivated the project.
 
-Prices are deliberately not frozen into the repository because they change. Enter the current per-million-token prices in `.env` before treating USD budgets as exact. The harness will always retain token counts and mark unpriced usage as zero-cost rather than inventing a number.
+Prices are deliberately not frozen into the repository because they change. Enter current input and output prices per million tokens in `.env` before treating USD budgets as exact. If a provider omits usage or a cloud model lacks either price, the usage summary returns `null` for the affected total and the mission view shows **Unknown**, rather than presenting a measured zero. A USD budget cannot be verified from an unknown total. Older usage rows without measurement flags are also treated as unknown. The offline demo uses estimated token counts and makes no paid call.
 
 ## Local models with Ollama
 
@@ -150,7 +150,7 @@ The following are intentionally not pretended complete:
 - Parallel code writers do not yet receive isolated git worktrees.
 - Context compaction is deterministic truncation plus durable state, not learned summarization.
 - The UI has polling rather than token streaming.
-- USD limits are exact only for models whose current prices you configure.
+- USD limits cannot be verified when provider usage or current input/output prices are missing.
 - No browser/computer-use tool and no autonomous trading or posting.
 
 These omissions keep v0.1 small enough to inspect and test. The next admission gate is evidence that the model gateway, router, token ledger and mission recovery reduce cost or human time without lowering verified quality.

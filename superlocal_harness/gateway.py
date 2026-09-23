@@ -30,6 +30,7 @@ class ModelResponse:
     tool_calls: list[ToolCall] = field(default_factory=list)
     input_tokens: int = 0
     output_tokens: int = 0
+    usage_reported: bool = True
     latency_ms: int = 0
     raw_finish_reason: str | None = None
 
@@ -115,6 +116,7 @@ class ModelGateway:
                 )
             )
         usage = data.get("usage") or {}
+        usage_reported = usage.get("prompt_tokens") is not None and usage.get("completion_tokens") is not None
         return ModelResponse(
             model_id=model.id,
             provider=model.provider,
@@ -122,6 +124,7 @@ class ModelGateway:
             tool_calls=tool_calls,
             input_tokens=int(usage.get("prompt_tokens", 0) or 0),
             output_tokens=int(usage.get("completion_tokens", 0) or 0),
+            usage_reported=usage_reported,
             latency_ms=latency_ms,
             raw_finish_reason=choice.get("finish_reason"),
         )
@@ -186,4 +189,3 @@ class ModelGateway:
             latency_ms=int((time.perf_counter() - started) * 1000),
             raw_finish_reason="stop",
         )
-

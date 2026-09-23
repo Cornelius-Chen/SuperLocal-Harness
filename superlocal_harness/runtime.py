@@ -470,6 +470,8 @@ class MissionService:
     def _record_successful_call(self, mission: dict[str, Any], response: ModelResponse) -> None:
         model = self.settings.get_model(response.model_id)
         cost = self.gateway.estimate_cost(model, response.input_tokens, response.output_tokens)
+        price_known = model.locality == "local" or model.provider == "mock" or (model.input_per_million > 0 and model.output_per_million > 0)
+        cost_known = response.usage_reported and price_known
         self.db.add_usage(
             {
                 "mission_id": mission["id"],
@@ -478,6 +480,8 @@ class MissionService:
                 "input_tokens": response.input_tokens,
                 "output_tokens": response.output_tokens,
                 "cost_usd": cost,
+                "usage_reported": response.usage_reported,
+                "cost_known": cost_known,
                 "latency_ms": response.latency_ms,
                 "success": True,
             }
@@ -492,6 +496,8 @@ class MissionService:
                 "input_tokens": response.input_tokens,
                 "output_tokens": response.output_tokens,
                 "cost_usd": cost,
+                "usage_reported": response.usage_reported,
+                "cost_known": cost_known,
                 "latency_ms": response.latency_ms,
             },
             actor="gateway",
